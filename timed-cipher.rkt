@@ -9,7 +9,7 @@
  verify-pass)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; duratoin type: seconds ;;;
+;;; duration type: seconds ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define/contract (now-pass duration)
