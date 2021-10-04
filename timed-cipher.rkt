@@ -44,13 +44,13 @@
   (check-true (list? (verify-pass (now-pass 4) 4)))
   (check-true (list? (verify-pass (now-pass 5) 5)))
   (check-true (list? (verify-pass (now-pass 11) 11)))
-  ;; test on dely
+  ;; test on now-pass dely
   (define p1 (now-pass 3))
   (sleep 1)
   (check-true (list? (verify-pass p1 3)))
   (sleep 1)
   (check-true (list? (verify-pass p1 3)))
-  ;; test on previous time
+  ;; test on get-passes dely
   (define ps (get-passes 3))
   (sleep 1)
   (check-true (list? (member (now-pass 3) ps)))
