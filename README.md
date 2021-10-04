@@ -27,16 +27,14 @@ these 3 passwords are all verifiable of generating by the verify-side.
 
 ## What can you use?
 
-1. Used in the field of time delay.
+1. Used in the field of time delay, such as network verify.
 
-such as: network verify.
-
-2. Ensure that your password is not fixed.
+2. Make your password isn't fixed.
 
 
 ## Others
 
 * Use this simple cipher to create your own cipher.
 
-* See `examples` folder to see details.
+* See `examples` folder for details.
 
