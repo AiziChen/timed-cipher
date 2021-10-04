@@ -15,13 +15,15 @@
 (define/contract (now-pass duration)
   (-> positive-integer? positive-integer?)
   (let* ([s (round (/ (current-milliseconds) 1000))]
-         [current-s (round (/ s duration))])
+         [remain (remainder s duration)]
+         [current-s (- s remain)])
     current-s))
 
 (define/contract (get-passes duration)
   (-> positive-integer? (listof positive-integer?))
   (let* ([s (round (/ (current-milliseconds) 1000))]
-         [current-s (round (/ s duration))]
+         [remain (remainder s duration)]
+         [current-s (- s remain)]
          [next-s (+ current-s duration)]
          [previous-s (- current-s duration)])
     (list previous-s current-s next-s)))
@@ -35,9 +37,22 @@
 ;;; TESTS
 (module+ test
   (require rackunit)
+  ;; simple test
   (check-true (list? (verify-pass (now-pass 1) 1)))
   (check-true (list? (verify-pass (now-pass 2) 2)))
   (check-true (list? (verify-pass (now-pass 3) 3)))
   (check-true (list? (verify-pass (now-pass 4) 4)))
   (check-true (list? (verify-pass (now-pass 5) 5)))
-  (check-true (list? (verify-pass (now-pass 11) 11))))
+  (check-true (list? (verify-pass (now-pass 11) 11)))
+  ;; test on dely
+  (define p1 (now-pass 3))
+  (sleep 1)
+  (check-true (list? (verify-pass p1 3)))
+  (sleep 1)
+  (check-true (list? (verify-pass p1 3)))
+  ;; test on previous time
+  (define ps (get-passes 3))
+  (sleep 1)
+  (check-true (list? (member (now-pass 3) ps)))
+  (sleep 1)
+  (check-true (list? (member (now-pass 3) ps)))) 
