@@ -5,17 +5,17 @@
 
 ;;; salt timed md5 cipher
 
-(define (md5-now-pass password duration)
+(define (md5-now-pass salt duration)
   (define np (now-pass duration))
   (let ([sp (number->string np)])
-    (md5 (string-append sp password))))
+    (md5 (string-append sp salt))))
 
 
-(define (md5-get-passes password duration)
+(define (md5-get-passes salt duration)
   (define passes (get-passes duration))
   (map (lambda (p)
          (let ([sp (number->string p)])
-           (md5 (string-append sp password))))
+           (md5 (string-append sp salt))))
        passes))
 
 
