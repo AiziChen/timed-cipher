@@ -14,19 +14,21 @@
 
 (define/contract (now-pass duration)
   (-> positive-integer? positive-integer?)
-  (let* ([s (round (/ (current-milliseconds) 1000))]
-         [remain (remainder s duration)]
-         [current-s (- s remain)])
-    current-s))
+  (parameterize ([current-locale "UTC"])
+               (let* ([s (round (/ (current-milliseconds) 1000))]
+                      [remain (remainder s duration)]
+                      [current-s (- s remain)])
+                 current-s)))
 
 (define/contract (get-passes duration)
   (-> positive-integer? (listof positive-integer?))
-  (let* ([s (round (/ (current-milliseconds) 1000))]
-         [remain (remainder s duration)]
-         [current-s (- s remain)]
-         [next-s (+ current-s duration)]
-         [previous-s (- current-s duration)])
-    (list previous-s current-s next-s)))
+  (parameterize ([current-locale "UTC"])
+    (let* ([s (round (/ (current-milliseconds) 1000))]
+           [remain (remainder s duration)]
+           [current-s (- s remain)]
+           [next-s (+ current-s duration)]
+           [previous-s (- current-s duration)])
+      (list previous-s current-s next-s))))
 
 
 (define/contract (verify-pass pass duration)
