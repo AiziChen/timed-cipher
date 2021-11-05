@@ -15,15 +15,15 @@
 (define/contract (now-pass duration)
   (-> positive-integer? positive-integer?)
   (parameterize ([current-locale "UTC"])
-               (let* ([s (round (/ (current-milliseconds) 1000))]
-                      [remain (remainder s duration)]
-                      [current-s (- s remain)])
-                 current-s)))
+    (let* ([s (current-seconds)]
+           [remain (remainder s duration)]
+           [current-s (- s remain)])
+      current-s)))
 
 (define/contract (get-passes duration)
   (-> positive-integer? (listof positive-integer?))
   (parameterize ([current-locale "UTC"])
-    (let* ([s (round (/ (current-milliseconds) 1000))]
+    (let* ([s (current-seconds)]
            [remain (remainder s duration)]
            [current-s (- s remain)]
            [next-s (+ current-s duration)]
@@ -57,4 +57,4 @@
   (sleep 1)
   (check-true (list? (member (now-pass 3) ps)))
   (sleep 1)
-  (check-true (list? (member (now-pass 3) ps)))) 
+  (check-true (list? (member (now-pass 3) ps))))
