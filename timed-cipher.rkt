@@ -26,7 +26,7 @@
          [current-s (- s remain)]
          [next-s (+ current-s duration)]
          [previous-s (- current-s duration)])
-    (list previous-s current-s next-s)))
+    (list current-s previous-s next-s)))
 
 
 (define/contract (verify-pass pass duration)
