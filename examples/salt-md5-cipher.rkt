@@ -7,21 +7,18 @@
 
 (define (md5-now-pass salt duration)
   (define np (now-pass duration))
-  (let ([sp (number->string np)])
-    (md5 (string-append sp salt))))
+  (md5 (string-append (number->string np) salt)))
 
 
 (define (md5-get-passes salt duration)
   (define passes (get-passes duration))
-  (map (lambda (p)
-         (let ([sp (number->string p)])
-           (md5 (string-append sp salt))))
-       passes))
+  (for/list ([p passes])
+    (md5 (string-append (number->string p) salt))))
 
 
 ;;; TEST
 (module+ test
   (require rackunit)
-  (define *pass* "quanye")
-  (check-true (list? (member (md5-now-pass *pass* 2) (md5-get-passes *pass* 2))))
-  (check-true (list? (member (md5-now-pass *pass* 7) (md5-get-passes *pass* 7)))))
+  (define *msalt* "quanye")
+  (check-true (list? (member (md5-now-pass *msalt* 2) (md5-get-passes *msalt* 2))))
+  (check-true (list? (member (md5-now-pass *msalt* 7) (md5-get-passes *msalt* 7)))))
